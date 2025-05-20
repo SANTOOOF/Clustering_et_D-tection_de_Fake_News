@@ -1,0 +1,103 @@
+/* Style général */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Styles pour les cartes */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: none;
+}
+
+.card-header {
+    border-radius: 8px 8px 0 0 !important;
+}
+
+/* Styles pour les résultats */
+#detection-result, #clustering-result, #batch-result {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Styles pour les alertes de résultat */
+.alert-fake {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.alert-real {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+/* Styles pour la barre de progression */
+.progress {
+    height: 25px;
+    margin-top: 10px;
+}
+
+.progress-bar-fake {
+    background-color: #dc3545;
+}
+
+.progress-bar-real {
+    background-color: #28a745;
+}
+
+/* Styles pour le graphique de clustering */
+#cluster-chart {
+    min-height: 300px;
+}
+
+/* Styles pour la liste des clusters */
+#cluster-distribution {
+    margin-top: 20px;
+}
+
+/* Styles pour le tableau de résultats par lot */
+.table-responsive {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Styles pour les sections */
+section {
+    scroll-margin-top: 70px;
+}
+
+/* Styles pour les formulaires */
+textarea {
+    resize: vertical;
+}
+
+/* Styles pour la navigation */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour le footer */
+footer {
+    margin-top: 50px;
+}
+
+/* Styles pour les éléments de formulaire */
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Styles pour les boutons */
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

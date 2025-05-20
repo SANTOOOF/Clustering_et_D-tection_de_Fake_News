@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détection de Fake News COVID-19</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Détection de Fake News COVID-19</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#detection">Détection</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#clustering">Clustering</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#batch">Analyse par lot</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <h4>Système de détection de fake news et clustering pour COVID-19</h4>
+                    <p>Cette application permet d'analyser des tweets et autres textes liés à la COVID-19 pour détecter les fake news et effectuer un clustering des données.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Détection -->
+        <section id="detection" class="my-5">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2>Détection de Fake News</h2>
+                </div>
+                <div class="card-body">
+                    <form id="detection-form">
+                        <div class="mb-3">
+                            <label for="tweet-text" class="form-label">Entrez un tweet ou un texte à analyser :</label>
+                            <textarea class="form-control" id="tweet-text" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Analyser</button>
+                    </form>
+                    
+                    <div id="detection-result" class="mt-4 d-none">
+                        <h3>Résultat :</h3>
+                        <div class="alert" id="result-alert">
+                            <h4 id="result-label"></h4>
+                            <p>Probabilité : <span id="result-probability"></span>%</p>
+                        </div>
+                        <div class="progress">
+                            <div id="result-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Clustering -->
+        <section id="clustering" class="my-5">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2>Clustering de Tweets COVID-19</h2>
+                </div>
+                <div class="card-body">
+                    <form id="clustering-form">
+                        <div class="mb-3">
+                            <label for="cluster-texts" class="form-label">Entrez plusieurs tweets ou textes (un par ligne) :</label>
+                            <textarea class="form-control" id="cluster-texts" rows="6" required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="cluster-algorithm" class="form-label">Algorithme de clustering :</label>
+                                    <select class="form-select" id="cluster-algorithm">
+                                        <option value="kmeans">K-Means</option>
+                                        <option value="dbscan">DBSCAN</option>
+                                        <option value="agglomerative">Agglomératif</option>
+                                        <option value="gmm">Gaussian Mixture Model</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="cluster-number" class="form-label">Nombre de clusters :</label>
+                                    <input type="number" class="form-control" id="cluster-number" min="2" max="10" value="3">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Effectuer le clustering</button>
+                    </form>
+                    
+                    <div id="clustering-result" class="mt-4 d-none">
+                        <h3>Résultat du clustering :</h3>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <canvas id="cluster-chart"></canvas>
+                            </div>
+                            <div class="col-md-4">
+                                <div id="cluster-info">
+                                    <h4>Distribution des clusters :</h4>
+                                    <ul id="cluster-distribution" class="list-group"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Analyse par lot -->
+        <section id="batch" class="my-5">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2>Analyse par lot</h2>
+                </div>
+                <div class="card-body">
+                    <form id="batch-form">
+                        <div class="mb-3">
+                            <label for="batch-texts" class="form-label">Entrez plusieurs tweets ou textes (un par ligne) :</label>
+                            <textarea class="form-control" id="batch-texts" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Analyser le lot</button>
+                    </form>
+                    
+                    <div id="batch-result" class="mt-4 d-none">
+                        <h3>Résultats de l'analyse par lot :</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <canvas id="batch-chart"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Texte</th>
+                                                <th>Prédiction</th>
+                                                <th>Probabilité</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="batch-table-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">
+            <p>Système de détection de fake news et clustering pour COVID-19</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
